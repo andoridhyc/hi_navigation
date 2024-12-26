@@ -26,3 +26,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "hi_navigation"
 include(":app")
+include(":nav-annotation")
+include(":nav-compiler")
