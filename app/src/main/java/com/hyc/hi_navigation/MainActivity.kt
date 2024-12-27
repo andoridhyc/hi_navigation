@@ -13,8 +13,10 @@ class MainActivity : AppCompatActivity() {
         val navView = findViewById<BottomNavigationView>(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)
+        val hostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+
         //进行导航图关联
-        NavUtlis.builderNavGraph(this, navController,R.id.nav_host_fragment)
+        NavUtlis.builderNavGraph(this,hostFragment?.childFragmentManager!!, navController,R.id.nav_host_fragment)
         //进行BottomNavigationView 关联
         NavUtlis.builderBottomBar(navView)
 

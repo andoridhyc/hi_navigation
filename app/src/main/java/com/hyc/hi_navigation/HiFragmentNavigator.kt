@@ -176,7 +176,7 @@ public open class HiFragmentNavigator(
         }
 
         fragmentManager.addOnBackStackChangedListener(object : OnBackStackChangedListener {
-            override fun onBackStackChanged() { }
+            override fun onBackStackChanged() {}
 
             override fun onBackStackChangeStarted(fragment: Fragment, pop: Boolean) {
                 // We only care about the pop case here since in the navigate case by the time
@@ -531,8 +531,12 @@ public open class HiFragmentNavigator(
         if (className[0] == '.') {
             className = context.packageName + className
         }
-
-        val frag = fragmentManager.fragmentFactory.instantiate(context.classLoader, className)
+        //android.fragment.app.homeFragment homeFragment
+        val tag = className.substring(className.lastIndexOf(".") + 1)
+        var frag = fragmentManager.findFragmentByTag(tag)
+        if (frag == null) {
+            frag = fragmentManager.fragmentFactory.instantiate(context.classLoader, className)
+        }
         frag.arguments = args
         val ft = fragmentManager.beginTransaction()
         var enterAnim = navOptions?.enterAnim ?: -1
@@ -546,7 +550,17 @@ public open class HiFragmentNavigator(
             popExitAnim = if (popExitAnim != -1) popExitAnim else 0
             ft.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
         }
-        ft.replace(containerId, frag, entry.id)
+        val fragments = fragmentManager.fragments
+        fragments.forEach {
+            if (it != null) {
+                ft.hide(it)
+            }
+        }
+
+        if (!frag.isAdded) {
+            ft.add(containerId, frag, tag)
+        }
+        ft.show(frag)
         ft.setPrimaryNavigationFragment(frag)
         ft.setReorderingAllowed(true)
         return ft
@@ -612,6 +626,7 @@ public open class HiFragmentNavigator(
         }
 
         private var _className: String? = null
+
         /**
          * The Fragment's class name associated with this destination
          *

@@ -5,21 +5,19 @@
     android:id="@+id/mobile_navigation"
    >
 
-<!--    <HiFragment-->
-<!--        android:id="@+id/navigation_home"-->
-<!--        android:name="com.hyc.hi_navigation.ui.home.HomeFragment"-->
-<!--        android:label="@string/title_home"></HiFragment>-->
+    <hifragment
+        android:id="@+id/navigation_home"
+        android:name="com.hyc.hi_navigation.ui.home.HomeFragment"
+        ></hifragment>
 
-<!--    <HiFragment-->
-<!--        android:id="@+id/navigation_dashboard"-->
-<!--        android:name="com.hyc.hi_navigation.ui.dashboard.DashboardFragment"-->
-<!--        android:label="@string/title_dashboard"-->
-<!--        tools:layout="@layout/fragment_dashboard"></HiFragment>-->
+    <hifragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.hyc.hi_navigation.ui.dashboard.DashboardFragment"
+        tools:layout="@layout/fragment_dashboard"></hifragment>
 
-<!--    <HiFragment-->
-<!--        android:id="@+id/navigation_notifications"-->
-<!--        android:name="com.hyc.hi_navigation.ui.notifications.NotificationsFragment"-->
-<!--        android:label="@string/title_notifications"-->
-<!--        tools:layout="@layout/fragment_notifications"></HiFragment>-->
+    <hifragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.hyc.hi_navigation.ui.notifications.NotificationsFragment"
+        tools:layout="@layout/fragment_notifications"></hifragment>
 
 </navigation>

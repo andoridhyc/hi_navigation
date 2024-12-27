@@ -3,6 +3,7 @@ package com.hyc.hi_navigation.utlis
 import android.content.ComponentName
 import android.content.Context
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.FragmentNavigator
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.hyc.hi_navigation.HiFragmentNavigator
 import com.hyc.hi_navigation.model.BottomBar
 import com.hyc.hi_navigation.model.Destination
 import java.io.BufferedReader
@@ -36,13 +38,17 @@ object NavUtlis {
         return null
     }
 
-    public fun builderNavGraph(activity:FragmentActivity,controller:NavController, containerId:Int){
+    public fun builderNavGraph(activity:FragmentActivity,childFragmentManager: FragmentManager,controller:NavController, containerId:Int){
         val content = parseFile(activity, "destination.json")
         destinations = Gson().fromJson<HashMap<String, Destination>>(content,
             object : TypeToken<HashMap<String, Destination>>() {}.type)
         val provider = controller.navigatorProvider
         val graphNavigator = provider.getNavigator(NavGraphNavigator::class.java)
         val navGraph = NavGraph(graphNavigator)
+        //注意：此处一定需要传入的 childFragmentManager，
+        val hiFragmentNavigator = HiFragmentNavigator(activity,childFragmentManager,containerId)
+        provider.addNavigator(hiFragmentNavigator)
+
         destinations.forEach {
             val destination = it.value
             when (destination.destType) {
@@ -54,8 +60,8 @@ object NavUtlis {
                     navGraph.addDestination(node)
                 }
                 "fragment" -> {
-                    val navigator = provider.getNavigator(FragmentNavigator::class.java)
-                    val node = navigator.createDestination()
+//                    val navigator = provider.getNavigator(FragmentNavigator::class.java)
+                    val node = hiFragmentNavigator.createDestination()
                     node.id = destination.id
                     node.setClassName(destination.clazName)
                     navGraph.addDestination(node)
