@@ -1,3 +1,5 @@
+import com.google.gson.Gson
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -48,8 +50,13 @@ dependencies {
 
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
-    implementation("com.alibaba:fastjson:1.2.69")
+    implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.7.7")
+    implementation ("com.google.code.gson:gson:2.10.1")
+
     kapt(project(mapOf("path" to ":nav-compiler")))
     api(project(mapOf("path" to ":nav-annotation")))
+
 
 }
