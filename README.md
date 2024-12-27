@@ -1,6 +1,7 @@
 基于注解处理器，对于 Navigation 改造
 
 使用方法如下：
+```
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,3 +20,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+```
