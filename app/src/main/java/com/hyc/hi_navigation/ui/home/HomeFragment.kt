@@ -11,6 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.hyc.hi_navigation.R
 import com.hyc.hi_navigation.ui.dashboard.DashboardViewModel
 import com.hyc.nav_annotation.Destination
@@ -30,7 +32,6 @@ class HomeFragment : Fragment() {
         homeViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
-
 
         Log.e("fragment","HomeFragment,onCreateView")
         return root

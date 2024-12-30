@@ -525,12 +525,14 @@ public open class HiFragmentNavigator(
         entry: NavBackStackEntry,
         navOptions: NavOptions?
     ): FragmentTransaction {
-        val destination = entry.destination as Destination
+        val destination = entry.destination as HiFragmentNavigator.Destination
         val args = entry.arguments
         var className = destination.className
         if (className[0] == '.') {
             className = context.packageName + className
         }
+//        val frag = fragmentManager.fragmentFactory.instantiate(context.classLoader, className)
+
         //android.fragment.app.homeFragment homeFragment
         val tag = className.substring(className.lastIndexOf(".") + 1)
         var frag = fragmentManager.findFragmentByTag(tag)
@@ -550,17 +552,7 @@ public open class HiFragmentNavigator(
             popExitAnim = if (popExitAnim != -1) popExitAnim else 0
             ft.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
         }
-        val fragments = fragmentManager.fragments
-        fragments.forEach {
-            if (it != null) {
-                ft.hide(it)
-            }
-        }
-
-        if (!frag.isAdded) {
-            ft.add(containerId, frag, tag)
-        }
-        ft.show(frag)
+        ft.replace(containerId, frag, entry.id)
         ft.setPrimaryNavigationFragment(frag)
         ft.setReorderingAllowed(true)
         return ft
@@ -608,8 +600,8 @@ public open class HiFragmentNavigator(
         @CallSuper
         public override fun onInflate(context: Context, attrs: AttributeSet) {
             super.onInflate(context, attrs)
-            context.resources.obtainAttributes(attrs, R.styleable.FragmentNavigator).use { array ->
-                val className = array.getString(R.styleable.FragmentNavigator_android_name)
+            context.resources.obtainAttributes(attrs, androidx.navigation.fragment.R.styleable.FragmentNavigator).use { array ->
+                val className = array.getString(androidx.navigation.fragment.R.styleable.FragmentNavigator_android_name)
                 if (className != null) setClassName(className)
             }
         }

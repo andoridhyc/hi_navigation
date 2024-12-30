@@ -17,7 +17,7 @@
     },
     {
       "size": 40,
-      "enable": false,
+      "enable": true,
       "index": 2,
       "pageUrl": "main/tabs/notification",
       "title": "Notification"

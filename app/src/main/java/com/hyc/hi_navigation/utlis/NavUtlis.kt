@@ -9,11 +9,11 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.NavGraphNavigator
 import androidx.navigation.fragment.DialogFragmentNavigator
-import androidx.navigation.fragment.FragmentNavigator
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.hyc.hi_navigation.HiFragmentNavigator
+
 import com.hyc.hi_navigation.model.BottomBar
 import com.hyc.hi_navigation.model.Destination
 import java.io.BufferedReader
@@ -38,7 +38,7 @@ object NavUtlis {
         return null
     }
 
-    public fun builderNavGraph(activity:FragmentActivity,childFragmentManager: FragmentManager,controller:NavController, containerId:Int){
+    public fun builderNavGraph(activity:FragmentActivity,childFm: FragmentManager,controller:NavController, containerId:Int){
         val content = parseFile(activity, "destination.json")
         destinations = Gson().fromJson<HashMap<String, Destination>>(content,
             object : TypeToken<HashMap<String, Destination>>() {}.type)
@@ -46,7 +46,7 @@ object NavUtlis {
         val graphNavigator = provider.getNavigator(NavGraphNavigator::class.java)
         val navGraph = NavGraph(graphNavigator)
         //注意：此处一定需要传入的 childFragmentManager，
-        val hiFragmentNavigator = HiFragmentNavigator(activity,childFragmentManager,containerId)
+        val hiFragmentNavigator = HiFragmentNavigator(activity,childFm,containerId)
         provider.addNavigator(hiFragmentNavigator)
 
         destinations.forEach {
@@ -61,6 +61,7 @@ object NavUtlis {
                 }
                 "fragment" -> {
 //                    val navigator = provider.getNavigator(FragmentNavigator::class.java)
+//                    val node = navigator.createDestination()
                     val node = hiFragmentNavigator.createDestination()
                     node.id = destination.id
                     node.setClassName(destination.clazName)
