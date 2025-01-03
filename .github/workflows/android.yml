@@ -23,7 +23,7 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew assembleDebug
 
     - uses: ruby/setup-ruby@v1
       with:
@@ -32,10 +32,11 @@ jobs:
     - name: Install fir-cli
       continue-on-error: true
       run: gem install fir-cli
+
     - name: Upload to Fir
       continue-on-error: true
       id: fir-upload
       run: |
         fir login --token ${{ secrets.FIR_TOKEN }}
-        fir publish app/app-release.apk -T ${{ secrets.FIR_TOKEN }}
+        fir publish app/build/outputs/apk/release/app-release.apk -T ${{ secrets.FIR_TOKEN }}
 
