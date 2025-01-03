@@ -24,3 +24,18 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.3'
+        bundler-cache: true
+    - name: Install fir-cli
+      continue-on-error: true
+      run: gem install fir-cli
+    - name: Upload to Fir
+      continue-on-error: true
+      id: fir-upload
+      run: |
+        fir login --token ${{ secrets.FIR_TOKEN }}
+        fir publish app/build/outputs/apk/release/app-release.apk -T ${{ secrets.FIR_TOKEN }}
+
